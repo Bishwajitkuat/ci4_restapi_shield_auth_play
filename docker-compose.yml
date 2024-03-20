@@ -1,0 +1,69 @@
+version: "3.9"
+services:
+  # codeigniter:
+  #   image: docker.io/bitnami/codeigniter:4
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     # ALLOW_EMPTY_PASSWORD is recommended only for development.
+  #     - ALLOW_EMPTY_PASSWORD=yes
+  #     - CODEIGNITER_DATABASE_HOST=mariadb
+  #     - CODEIGNITER_DATABASE_PORT_NUMBER=3306
+  #     - CODEIGNITER_DATABASE_USER=ci4
+  #     - CODEIGNITER_DATABASE_NAME=ci4DB
+  #   volumes:
+  #     - "./ci4:/app"
+  #   depends_on:
+  #     - mariadb
+
+  # webserver:
+  #   image: thecodingmachine/php:8.3.3-v4-fpm-node20
+  #   platform: linux/x86_64
+  #   working_dir: /var/www/html
+  #   environment:
+  #     # PHP_EXTENSIONS: mysqli apcu pdo_mysql opcache redis zip soap mcrypt gd yaml exif xdebug
+  #     PHP_EXTENSIONS: apcu pdo_mysql opcache redis zip gd yaml exif xdebug
+  #     # PHP_EXTENSIONS: xdebug intl yaml gd
+  #     PHP_EXTENSION_GD: 1
+  #     PHP_EXTENSION_MYSQLI: 1
+  #     APACHE_DOCUMENT_ROOT: app
+  #     APACHE_RUN_GROUP: www-data # use www-data user in container.. which is also used on most webservers for deployer
+  #     APACHE_RUN_USER: www-data
+  #     #PHP_INI_XDEBUG__REMOTE_AUTOSTART: 1
+  #     PHP_EXTENSION_XDEBUG: 1
+  #   depends_on:
+  #     - mariadb
+  #   volumes:
+  #     - ./:/var/www/html
+  #     - ~/.ssh:/root/.ssh
+  #   stdin_open: true
+  #   tty: true
+  #   ports:
+  #     - "9090:80"
+
+  mariadb:
+    image: mariadb
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: ci4DB
+      MARIADB_USER: ci4
+      MARIADB_PASSWORD: pass
+    volumes:
+      - ./database:/var/lib/mysql
+      - ./db_dump:/docker-entrypoint-initdb.d
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    platform: linux/x86_64
+    restart: always
+    environment:
+      PMA_HOST: mariadb
+      PMA_USER: ci4
+      PMA_PASSWORD: pass
+      PMA_PORT: 3306
+      UPLOAD_LIMIT: 300M
+    ports:
+      - 9091:80
