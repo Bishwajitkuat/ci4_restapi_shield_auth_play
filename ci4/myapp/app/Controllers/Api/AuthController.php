@@ -120,4 +120,14 @@ class AuthController extends ResourceController
         // destroy token
     }
 
+    public function accessDenied()
+    {
+        $response = [
+            'status' => false,
+            'message' => 'Invalid access',
+            'data' => [],
+        ];
+        return $this->respondCreated($response);
+    }
+
 }
