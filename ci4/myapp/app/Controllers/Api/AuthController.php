@@ -110,8 +110,16 @@ class AuthController extends ResourceController
     // get
     public function profile()
     {
+        // getting user id from auth
+        $userId = auth()->id();
+        // fetching user data from db
+        $userData = $this->user->findById($userId);
         // profile data of the logged in user
-        // token
+        return $this->respondCreated([
+            'status' => true,
+            'message' => 'Profile data of the logged in user',
+            'data' => ['user' => $userData],
+        ]);
     }
     // get
     public function logout()
