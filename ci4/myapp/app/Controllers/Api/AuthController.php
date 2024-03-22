@@ -22,6 +22,9 @@ class AuthController extends ResourceController
                 'username' => 'required|is_unique[users.username]',
                 'email' => 'required|valid_email|is_unique[auth_identities.secret]',
                 'password' => 'required',
+                'name' => 'required',
+                'mobile' => 'required',
+                'address' => 'required',
             ];
             $data = $this->request->getPost(array_keys($rules));
             // validation
