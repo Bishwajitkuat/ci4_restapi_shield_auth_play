@@ -18,7 +18,7 @@ $routes->group('api', ['namespace' => 'App\Controllers\Api'], function ($routes)
     $routes->post('register', 'AuthController::register');
     $routes->post('login', 'AuthController::login');
     $routes->get('profile', 'AuthController::profile', ['filter' => 'authFilter']);
-    $routes->get('logout', 'AuthController::logout');
+    $routes->get('logout', 'AuthController::logout', ['filter' => 'authFilter']);
     // project routes
     $routes->post('add-project', 'ProjectController::addProject');
     $routes->get('get-projects', 'ProjectController::getProjects');
