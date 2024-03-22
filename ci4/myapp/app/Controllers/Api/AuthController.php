@@ -59,7 +59,14 @@ class AuthController extends ResourceController
     // post
     public function login()
     {
+
         try {
+
+            // if user already have a active session and try to login again, user will be logged out and logged in again
+            if (auth()->loggedIn()) {
+                auth()->logout();
+            }
+            // validation rules
             $rules = [
                 'email' => 'required|valid_email',
                 'password' => 'required',
