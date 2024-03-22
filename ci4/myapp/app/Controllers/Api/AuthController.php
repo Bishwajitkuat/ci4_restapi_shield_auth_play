@@ -2,9 +2,9 @@
 
 namespace App\Controllers\Api;
 
+use App\Models\UserModel;
 use CodeIgniter\RESTful\ResourceController;
 use CodeIgniter\Shield\Entities\User;
-use CodeIgniter\Shield\Models\UserModel;
 use Exception;
 
 class AuthController extends ResourceController
