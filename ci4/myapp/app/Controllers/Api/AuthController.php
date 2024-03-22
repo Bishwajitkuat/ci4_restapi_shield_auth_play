@@ -124,8 +124,15 @@ class AuthController extends ResourceController
     // get
     public function logout()
     {
-        // logout user
-        // destroy token
+        // using auth() helper function's logout method to logout current user
+        auth()->logout();
+        // destroying all access token
+        auth()->user()->revokeAllAccessTokens();
+        return $this->respondCreated([
+            'status' => true,
+            'message' => 'Logged out',
+            'data' => [],
+        ]);
     }
 
     public function accessDenied()
